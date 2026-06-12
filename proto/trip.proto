@@ -17,11 +17,11 @@ message PreviewTripRequest {
 message PreviewTripResponse {
   string userID  = 1;
   Route route = 2;
-  RideFare rideFares = 3;
+  repeated RideFare rideFares = 3;
 }
 
 message Coordinate {
-  double latotude = 1;
+  double latitude = 1;
   double longitude = 2;
 }
 

@@ -85,7 +85,7 @@ type PreviewTripResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserID        string                 `protobuf:"bytes,1,opt,name=userID,proto3" json:"userID,omitempty"`
 	Route         *Route                 `protobuf:"bytes,2,opt,name=route,proto3" json:"route,omitempty"`
-	RideFares     *RideFare              `protobuf:"bytes,3,opt,name=rideFares,proto3" json:"rideFares,omitempty"`
+	RideFares     []*RideFare            `protobuf:"bytes,3,rep,name=rideFares,proto3" json:"rideFares,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -134,7 +134,7 @@ func (x *PreviewTripResponse) GetRoute() *Route {
 	return nil
 }
 
-func (x *PreviewTripResponse) GetRideFares() *RideFare {
+func (x *PreviewTripResponse) GetRideFares() []*RideFare {
 	if x != nil {
 		return x.RideFares
 	}
@@ -143,7 +143,7 @@ func (x *PreviewTripResponse) GetRideFares() *RideFare {
 
 type Coordinate struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Latotude      float64                `protobuf:"fixed64,1,opt,name=latotude,proto3" json:"latotude,omitempty"`
+	Latitude      float64                `protobuf:"fixed64,1,opt,name=latitude,proto3" json:"latitude,omitempty"`
 	Longitude     float64                `protobuf:"fixed64,2,opt,name=longitude,proto3" json:"longitude,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -179,9 +179,9 @@ func (*Coordinate) Descriptor() ([]byte, []int) {
 	return file_trip_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *Coordinate) GetLatotude() float64 {
+func (x *Coordinate) GetLatitude() float64 {
 	if x != nil {
-		return x.Latotude
+		return x.Latitude
 	}
 	return 0
 }
@@ -378,10 +378,10 @@ const file_trip_proto_rawDesc = "" +
 	"\x13PreviewTripResponse\x12\x16\n" +
 	"\x06userID\x18\x01 \x01(\tR\x06userID\x12!\n" +
 	"\x05route\x18\x02 \x01(\v2\v.trip.RouteR\x05route\x12,\n" +
-	"\trideFares\x18\x03 \x01(\v2\x0e.trip.RideFareR\trideFares\"F\n" +
+	"\trideFares\x18\x03 \x03(\v2\x0e.trip.RideFareR\trideFares\"F\n" +
 	"\n" +
 	"Coordinate\x12\x1a\n" +
-	"\blatotude\x18\x01 \x01(\x01R\blatotude\x12\x1c\n" +
+	"\blatitude\x18\x01 \x01(\x01R\blatitude\x12\x1c\n" +
 	"\tlongitude\x18\x02 \x01(\x01R\tlongitude\">\n" +
 	"\bGeometry\x122\n" +
 	"\vcoordinates\x18\x01 \x03(\v2\x10.trip.CoordinateR\vcoordinates\"k\n" +

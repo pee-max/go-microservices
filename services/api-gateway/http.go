@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bytes"
 	"encoding/json"
 	"log"
 	"net/http"
@@ -22,33 +21,21 @@ func handleTripPreview(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	tripClient, err := grpc_clients.CreatTripServiceClient()
+	tripService, err := grpc_clients.CreatTripServiceClient()
 	if err != nil {
-		return
+		log.Fatal(err)
 	}
-	defer tripClient.Close()
+	defer tripService.Close()
 
-	tripClient.Client.PreviewTrip()
-
-	jsonBody, _ := json.Marshal(reqBody)
-	reader := bytes.NewReader(jsonBody)
-
-	resp, err := http.Post("http://trip-service:8083/preview", "application/json", reader)
-
+	// tripClient.Client.PreviewTrip()
+	tripPreview, err := tripService.Client.PreviewTrip(r.Context(), reqBody.ToProto())
 	if err != nil {
-		log.Print(err)
+		log.Printf("Failed to preview a trip: %v", err)
+		http.Error(w, "Failed to preview a trip", http.StatusInternalServerError)
 		return
 	}
 
-	defer resp.Body.Close()
-
-	var respBody any
-	if err := json.NewDecoder(resp.Body).Decode(&respBody); err != nil {
-		http.Error(w, "failed to parse JSON data from trip service", http.StatusBadRequest)
-		return
-	}
-
-	response := contracts.APIResponse{Data: respBody}
+	response := contracts.APIResponse{Data: tripPreview}
 
 	writeJSON(w, http.StatusOK, response)
 
