@@ -6,7 +6,7 @@ import (
 
 type OsrmApiResponse struct {
 	Routes []struct {
-		Distance float64 `json:"distace"`
+		Distance float64 `json:"distance"`
 		Duration float64 `json:"duration"`
 		Geometry struct {
 			Coordinates [][]float64 `json:"coordinates"`
@@ -32,5 +32,17 @@ func (o *OsrmApiResponse) ToProto() *pb.Route {
 		},
 		Distance: route.Distance,
 		Duration: route.Duration,
+	}
+}
+
+type PriceConfig struct {
+	PricePerUintOfDistance float64
+	PricePerMinute         float64
+}
+
+func DefaultPriceConfig() *PriceConfig {
+	return &PriceConfig{
+		PricePerUintOfDistance: 1.5,
+		PricePerMinute:         0.25,
 	}
 }
