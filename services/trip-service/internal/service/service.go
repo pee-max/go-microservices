@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"ride-sharing/services/trip-service/internal/domain"
 	tripTypes "ride-sharing/services/trip-service/pkg/types"
+	"ride-sharing/shared/proto/trip"
 	"ride-sharing/shared/types"
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -23,12 +24,13 @@ func NewTripService(repo domain.TripRepository) *TripService {
 	}
 }
 
-func (s *TripService) CreatTrip(ctx context.Context, fare *domain.RideFareModel) (*domain.TripModel, error) {
+func (s *TripService) CreateTrip(ctx context.Context, fare *domain.RideFareModel) (*domain.TripModel, error) {
 	t := &domain.TripModel{
 		ID:       primitive.NewObjectID(),
 		UserID:   fare.UserID,
 		Status:   "pending",
 		RideFare: fare,
+		Driver:   &trip.TripDriver{},
 	}
 	return s.repo.CreatTrip(ctx, t)
 }
@@ -68,7 +70,7 @@ func (s *TripService) EstimatePackagesPriceWithRoute(route *tripTypes.OsrmApiRes
 	return estimateFare
 }
 
-func (s *TripService) GenerateTripFare(ctx context.Context, RideFares []*domain.RideFareModel, userId string) ([]*domain.RideFareModel, error) {
+func (s *TripService) GenerateTripFare(ctx context.Context, RideFares []*domain.RideFareModel, userId string, route *tripTypes.OsrmApiResponse) ([]*domain.RideFareModel, error) {
 	fares := make([]*domain.RideFareModel, len(RideFares))
 
 	for i, f := range RideFares {
@@ -79,6 +81,7 @@ func (s *TripService) GenerateTripFare(ctx context.Context, RideFares []*domain.
 			ID:                id,
 			PackageSlug:       f.PackageSlug,
 			TotalPriceInCents: f.TotalPriceInCents,
+			Route:             route,
 		}
 		if err := s.repo.SaveRideFare(ctx, fare); err != nil {
 			return nil, fmt.Errorf("failed to save trip fares: %v", err)
@@ -126,4 +129,20 @@ func getBaseFares() []*domain.RideFareModel {
 			TotalPriceInCents: 1000,
 		},
 	}
+}
+
+func (s *TripService) GetAndValidateFare(ctx context.Context, fareID, userID string) (*domain.RideFareModel, error) {
+	fare, err := s.repo.GetRideFareByID(ctx, fareID)
+	if err != nil {
+		return nil, fmt.Errorf("failde to get trip fare: %v", err)
+	}
+
+	if fare == nil {
+		return nil, fmt.Errorf("fare does not exist")
+	}
+
+	if fare.UserID != userID {
+		return nil, fmt.Errorf("fare does not belong to the user")
+	}
+	return fare, nil
 }

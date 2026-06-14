@@ -16,6 +16,7 @@ message CreateTripRequest {
 
 message CreateTripResponse {
   string tripID = 1;
+  Trip trip = 2;
 }
 
 message PreviewTripRequest {
@@ -50,4 +51,20 @@ message RideFare {
   string userID = 2;
   string packageSlug = 3;
   double totalPriceInCents = 4;
+}
+
+message TripDriver {
+  string id = 1;
+  string name = 2;
+  string profilePicture = 3;
+  string carPlate = 4;
+}
+
+message Trip {
+  string id = 1;
+  RideFare selectedFare = 2;
+  Route route = 3;
+  string status = 4;
+  string userID = 5;
+  TripDriver driver = 6;
 }
