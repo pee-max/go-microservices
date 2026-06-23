@@ -37,7 +37,7 @@ func main() {
 	grpcServer := grpcserver.NewServer()
 	grpc.NewGRPCHandler(grpcServer, svc)
 
-	log.Printf("strating grpc server Trip server on port: %v", lis.Addr().String())
+	log.Printf("starting grpc server Trip server on port: %v", lis.Addr().String())
 
 	go func() {
 		if err := grpcServer.Serve(lis); err != nil {
@@ -47,6 +47,6 @@ func main() {
 	}()
 
 	<-ctx.Done()
-	log.Println("shuting down the server...")
+	log.Println("shutting down the server...")
 	grpcServer.GracefulStop()
 }
