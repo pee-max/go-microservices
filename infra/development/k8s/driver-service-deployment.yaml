@@ -15,6 +15,7 @@ spec:
       containers:
         - name: driver-service
           image: ride-sharing/driver-service
+          imagePullPolicy: Never
           ports:
             - containerPort: 9092
           resources:
@@ -25,20 +26,21 @@ spec:
               memory: "128Mi"
               cpu: "200m"
           env:
-          - name: RABBITMQ_URI
-            valueFrom:
-              secretKeyRef:
-                name: rabbitmq-credentials
-                key: uri
+            - name: RABBITMQ_URI
+              valueFrom:
+                secretKeyRef:
+                  name: rabbitmq-credentials
+                  key: uri
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: driver-service
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
     - port: 9092
+      name: grpc
       targetPort: 9092
   selector:
     app: driver-service
