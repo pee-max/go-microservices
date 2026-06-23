@@ -23,8 +23,8 @@ message Driver {
   string name = 2;
   string profilePicture = 3;
   string carPlate = 4;
-  string grohash = 5;
-  string packagSlug = 6;
+  string geohash = 5;
+  string packageSlug = 6;
   Location location = 7;
 }
 
