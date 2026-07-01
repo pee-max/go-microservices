@@ -36,8 +36,9 @@ func (t *TripModel) Toproto() *pb.Trip {
 	return &pb.Trip{
 		Id:           t.ID.Hex(),
 		SelectedFare: t.RideFare.ToProto(),
-		Status:       "Paying",
+		Status:       t.Status,
 		UserID:       t.UserID,
 		Driver:       t.Driver,
+		Route:        t.RideFare.Route.ToProto(),
 	}
 }
