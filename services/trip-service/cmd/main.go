@@ -11,7 +11,7 @@ import (
 	"ride-sharing/services/trip-service/internal/infrastructure/repository"
 	"ride-sharing/services/trip-service/internal/service"
 	"ride-sharing/shared/env"
-	"ride-sharing/shared/message"
+	"ride-sharing/shared/messaging"
 	"syscall"
 
 	grpcserver "google.golang.org/grpc"
@@ -38,7 +38,7 @@ func main() {
 		log.Fatalf("failed to listen: %v", err)
 	}
 
-	rabbitmq, err := message.NewRabbitMQ(uri)
+	rabbitmq, err := messaging.NewRabbitMQ(uri)
 	if err != nil {
 		log.Fatal(err)
 	}

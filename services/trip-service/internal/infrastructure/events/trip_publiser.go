@@ -2,19 +2,20 @@ package events
 
 import (
 	"context"
-	"ride-sharing/shared/message"
+	"ride-sharing/shared/contracts"
+	"ride-sharing/shared/messaging"
 )
 
 type TripEventPublish struct {
-	rabbitmq *message.RabbitMQ
+	rabbitmq *messaging.RabbitMQ
 }
 
-func NewTripEventPublisher(rabbitmq *message.RabbitMQ) *TripEventPublish {
+func NewTripEventPublisher(rabbitmq *messaging.RabbitMQ) *TripEventPublish {
 	return &TripEventPublish{
 		rabbitmq: rabbitmq,
 	}
 }
 
 func (p *TripEventPublish) PublishMessage(ctx context.Context) error {
-	return p.rabbitmq.PublishMessage(ctx, "hello", "hello world")
+	return p.rabbitmq.PublishMessage(ctx, contracts.TripEventCreated, "Trip has been created")
 }
