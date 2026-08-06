@@ -34,24 +34,31 @@ func (h *gRPCHandler) PreviewTrip(ctx context.Context, req *pb.PreviewTripReques
 	pickup := req.GetStartLocation()
 	destination := req.GetEndLocation()
 
-	route, err := h.service.GetRoute(ctx, &types.Coordinate{
+	pickupCoord := &types.Coordinate{
 		Latitude:  pickup.Latitude,
 		Longitude: pickup.Longitude,
-	}, &types.Coordinate{
+	}
+	destinationCoord := &types.Coordinate{
 		Latitude:  destination.Latitude,
 		Longitude: destination.Longitude,
-	})
+	}
+
+	userID := req.GetUserID()
+
+	// CHANGE THE LAST ARG TO "FALSE" if the OSRM API is not working right now
+	route, err := h.service.GetRoute(ctx, pickupCoord, destinationCoord)
 	if err != nil {
 		log.Println(err)
 		return nil, status.Errorf(codes.Internal, "failed to get route: %v", err)
 	}
 
-	estimatedFare := h.service.EstimatePackagesPriceWithRoute(route)
-	fares, err := h.service.GenerateTripFare(ctx, estimatedFare, req.GetUserID(), route)
+	estimatedFares := h.service.EstimatePackagesPriceWithRoute(route)
+
+	fares, err := h.service.GenerateTripFare(ctx, estimatedFares, userID, route)
 	if err != nil {
-		log.Println(err)
-		return nil, status.Errorf(codes.Internal, "failed to generate trip fare: %v", err)
+		return nil, status.Errorf(codes.Internal, "failed to generate the ride fares: %v", err)
 	}
+
 	return &pb.PreviewTripResponse{
 		Route:     route.ToProto(),
 		RideFares: domain.ToRideFaresProto(fares),

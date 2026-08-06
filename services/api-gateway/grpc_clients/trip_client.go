@@ -13,7 +13,7 @@ type tripServiceClient struct {
 	conn   *grpc.ClientConn
 }
 
-func CreatTripServiceClient() (*tripServiceClient, error) {
+func NewTripServiceClient() (*tripServiceClient, error) {
 	tripServiceURL := os.Getenv("TRIP_SERVICE_URL")
 	if tripServiceURL == "" {
 		tripServiceURL = "trip-service:9093"

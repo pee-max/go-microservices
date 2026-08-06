@@ -123,8 +123,8 @@ type Driver struct {
 	Name           string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 	ProfilePicture string                 `protobuf:"bytes,3,opt,name=profilePicture,proto3" json:"profilePicture,omitempty"`
 	CarPlate       string                 `protobuf:"bytes,4,opt,name=carPlate,proto3" json:"carPlate,omitempty"`
-	Grohash        string                 `protobuf:"bytes,5,opt,name=grohash,proto3" json:"grohash,omitempty"`
-	PackagSlug     string                 `protobuf:"bytes,6,opt,name=packagSlug,proto3" json:"packagSlug,omitempty"`
+	Geohash        string                 `protobuf:"bytes,5,opt,name=geohash,proto3" json:"geohash,omitempty"`
+	PackageSlug    string                 `protobuf:"bytes,6,opt,name=packageSlug,proto3" json:"packageSlug,omitempty"`
 	Location       *Location              `protobuf:"bytes,7,opt,name=location,proto3" json:"location,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
@@ -188,16 +188,16 @@ func (x *Driver) GetCarPlate() string {
 	return ""
 }
 
-func (x *Driver) GetGrohash() string {
+func (x *Driver) GetGeohash() string {
 	if x != nil {
-		return x.Grohash
+		return x.Geohash
 	}
 	return ""
 }
 
-func (x *Driver) GetPackagSlug() string {
+func (x *Driver) GetPackageSlug() string {
 	if x != nil {
-		return x.PackagSlug
+		return x.PackageSlug
 	}
 	return ""
 }
@@ -270,16 +270,14 @@ const file_driver_proto_rawDesc = "" +
 	"\bdriverID\x18\x01 \x01(\tR\bdriverID\x12 \n" +
 	"\vpackageSlug\x18\x02 \x01(\tR\vpackageSlug\"@\n" +
 	"\x16RegisterDriverResponse\x12&\n" +
-	"\x06driver\x18\x01 \x01(\v2\x0e.driver.DriverR\x06driver\"\xd8\x01\n" +
+	"\x06driver\x18\x01 \x01(\v2\x0e.driver.DriverR\x06driver\"\xda\x01\n" +
 	"\x06Driver\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12&\n" +
 	"\x0eprofilePicture\x18\x03 \x01(\tR\x0eprofilePicture\x12\x1a\n" +
 	"\bcarPlate\x18\x04 \x01(\tR\bcarPlate\x12\x18\n" +
-	"\agrohash\x18\x05 \x01(\tR\agrohash\x12\x1e\n" +
-	"\n" +
-	"packagSlug\x18\x06 \x01(\tR\n" +
-	"packagSlug\x12,\n" +
+	"\ageohash\x18\x05 \x01(\tR\ageohash\x12 \n" +
+	"\vpackageSlug\x18\x06 \x01(\tR\vpackageSlug\x12,\n" +
 	"\blocation\x18\a \x01(\v2\x10.driver.LocationR\blocation\"D\n" +
 	"\bLocation\x12\x1a\n" +
 	"\blatitude\x18\x01 \x01(\x01R\blatitude\x12\x1c\n" +

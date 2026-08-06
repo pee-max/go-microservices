@@ -27,7 +27,7 @@ func NewServer() *Service {
 func (s *Service) FindAvailableDriversID(packageSlug string) []string {
 	var avaliableDriversID []string
 	for _, driver := range s.drivers {
-		if driver.Driver.PackagSlug == packageSlug {
+		if driver.Driver.PackageSlug == packageSlug {
 			avaliableDriversID = append(avaliableDriversID, driver.Driver.Id)
 		}
 	}
@@ -52,8 +52,8 @@ func (s *Service) RegisterDriver(driverId string, packageSlug string) (*pb.Drive
 
 	driver := &pb.Driver{
 		Id:             driverId,
-		Grohash:        geohash,
-		PackagSlug:     packageSlug,
+		Geohash:        geohash,
+		PackageSlug:    packageSlug,
 		Location:       &pb.Location{Latitude: randomRoute[0][0], Longitude: randomRoute[0][1]},
 		Name:           "peeeeppa",
 		ProfilePicture: randomAvatar,

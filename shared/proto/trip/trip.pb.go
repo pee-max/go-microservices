@@ -187,7 +187,7 @@ func (x *PreviewTripRequest) GetEndLocation() *Coordinate {
 
 type PreviewTripResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserID        string                 `protobuf:"bytes,1,opt,name=userID,proto3" json:"userID,omitempty"`
+	TripID        string                 `protobuf:"bytes,1,opt,name=tripID,proto3" json:"tripID,omitempty"`
 	Route         *Route                 `protobuf:"bytes,2,opt,name=route,proto3" json:"route,omitempty"`
 	RideFares     []*RideFare            `protobuf:"bytes,3,rep,name=rideFares,proto3" json:"rideFares,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -224,9 +224,9 @@ func (*PreviewTripResponse) Descriptor() ([]byte, []int) {
 	return file_trip_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *PreviewTripResponse) GetUserID() string {
+func (x *PreviewTripResponse) GetTripID() string {
 	if x != nil {
-		return x.UserID
+		return x.TripID
 	}
 	return ""
 }
@@ -641,7 +641,7 @@ const file_trip_proto_rawDesc = "" +
 	"\rstartLocation\x18\x02 \x01(\v2\x10.trip.CoordinateR\rstartLocation\x122\n" +
 	"\vendLocation\x18\x03 \x01(\v2\x10.trip.CoordinateR\vendLocation\"~\n" +
 	"\x13PreviewTripResponse\x12\x16\n" +
-	"\x06userID\x18\x01 \x01(\tR\x06userID\x12!\n" +
+	"\x06tripID\x18\x01 \x01(\tR\x06tripID\x12!\n" +
 	"\x05route\x18\x02 \x01(\v2\v.trip.RouteR\x05route\x12,\n" +
 	"\trideFares\x18\x03 \x03(\v2\x0e.trip.RideFareR\trideFares\"F\n" +
 	"\n" +
