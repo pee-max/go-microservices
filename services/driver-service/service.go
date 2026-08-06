@@ -24,6 +24,20 @@ func NewServer() *Service {
 	}
 }
 
+func (s *Service) FindAvailableDriversID(packageSlug string) []string {
+	var avaliableDriversID []string
+	for _, driver := range s.drivers {
+		if driver.Driver.PackagSlug == packageSlug {
+			avaliableDriversID = append(avaliableDriversID, driver.Driver.Id)
+		}
+	}
+	if len(avaliableDriversID) == 0 {
+		return []string{}
+	}
+
+	return avaliableDriversID
+}
+
 func (s *Service) RegisterDriver(driverId string, packageSlug string) (*pb.Driver, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
