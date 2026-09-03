@@ -59,7 +59,7 @@ func (c *tripConsumer) handleFindAndNotifyDrivers(ctx context.Context, payload m
 	}
 
 	suitableDriver := availableDriversID[0]
-	marshaledEvet, err := json.Marshal(suitableDriver)
+	marshaledEvet, err := json.Marshal(payload)
 	if err != nil {
 		return err
 	}
