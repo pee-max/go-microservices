@@ -63,7 +63,7 @@ func handleDriverWebSocket(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := connManager.SendMessage(userId, contracts.WSMessage{
-		Type: "driver.cmd.register",
+		Type: contracts.DriverCmdRegister,
 		Data: driverData.Driver,
 	}); err != nil {
 		log.Printf("Error sending message: %v", err)
