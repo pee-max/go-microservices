@@ -63,6 +63,7 @@ func handleTripStart(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Printf("failed to create trip: %v", err)
 		http.Error(w, "failed to create trip", http.StatusBadRequest)
+		return
 	}
 	response := contracts.APIResponse{Data: tripStart}
 	writeJSON(w, http.StatusOK, response)

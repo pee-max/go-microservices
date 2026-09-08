@@ -165,6 +165,16 @@ func (r *RabbitMQ) setupExchangeAndQueue() error {
 		return err
 	}
 
+	if err := r.declareAndBindQueue(
+		NotifyDriverAssignQueue,
+		[]string{
+			contracts.TripEventDriverAssigned,
+		},
+		TripExchange,
+	); err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -178,7 +188,7 @@ func (r *RabbitMQ) declareAndBindQueue(queueName string, messageType []string, e
 		nil,
 	)
 	if err != nil {
-		log.Fatal(err)
+		return fmt.Errorf("failed to declare queue %s: %v", queueName, err)
 	}
 	for _, msg := range messageType {
 		if err := r.Channel.QueueBind(
